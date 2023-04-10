@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Python Script Generator for auto-initiating Auto-GPT</title>
+	<style>
+	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	label {
+		font-size: 1.2rem;
+		margin-bottom: 0.5rem;
+	}
+	
+	input[type="text"] {
+		padding: 0.5rem;
+		border-radius: 0.5rem;
+		border: none;
+		box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+		margin-bottom: 1rem;
+		width: 80%;
+		max-width: 30rem;
+	}
+	
+	input[type="submit"] {
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		border: none;
+		background-color: #007bff;
+		color: #fff;
+		font-size: 1.2rem;
+		cursor: pointer;
+		transition: background-color 0.2s ease-in-out;
+	}
+	
+	input[type="submit"]:hover {
+		background-color: #0062cc;
+	}
+	
+	textarea {
+		padding: 0.5rem;
+		border-radius: 0.5rem;
+		border: none;
+		box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+		margin-top: 1rem;
+		width: 80%;
+		max-width: 30rem;
+	}
+	
+	h1 {
+		text-align: center;
+		color: #3579f6;
+	}
+	</style>
+</head>
+
+<body>
+	<h1>Python Script Generator for auto-initiating Auto-GPT</h1>
+	<form>
+		<label for="name">Name your AI:</label>
+		<input type="text" id="name" name="name" value="PythonEnhancerGPT">
+		<label for="description">Describe your AI's role:</label>
+		<input type="text" id="description" name="description" value="autonomously enhances python code">
+		<label for="goal1">Goal 1:</label>
+		<input type="text" id="goal1" name="goal1" value="Please review your 'COMMANDS' list for all available commands">
+		<label for="goal2">Goal 2:</label>
+		<input type="text" id="goal2" name="goal2" value="use read_file for code.py">
+		<label for="goal3">Goal 3:</label>
+		<input type="text" id="goal3" name="goal3" value="use improve_code command">
+		<label for="goal4">Goal 4:</label>
+		<input type="text" id="goal4" name="goal4" value="save improved.py">
+		<label for="goal5">Goal 5:</label>
+		<input type="text" id="goal5" name="goal5" value="do not use generate_image command">
+		<input type="submit" value="Update Python Script"> </form>
+	<br>
+	<br>
+	<label for="pythonScript">Updated Python Script:</label>
+	<br>
+	<textarea id="pythonScript" rows="10" cols="50"></textarea>
+	<script>
+	const form = document.querySelector('form');
+	form.addEventListener('submit', (event) => {
+		event.preventDefault();
+		const elements = form.elements;
+		let values = {};
+		for(let i = 0; i < elements.length; i++) {
+			if(elements[i].type !== 'submit') {
+				values[elements[i].name] = elements[i].value;
+			}
+		}
+		const {
+			name, description, goal1, goal2, goal3, goal4, goal5
+		} = values;
+		const updatedScript = `import subprocess\nimport time\nimport os\n# Update local repository with any changes made to the remote repository\nos.system("git pull")\n# Install required dependencies for the project\nos.system("pip install -r requirements.txt")\n# Change current directory to the "scripts" folder\nos.chdir('scripts')\n# Run the Python script "main.py" continuously with automatic response of "n"\np = subprocess.Popen(['python3', 'main.py', '--continuous'], stdin=subprocess.PIPE)\np.stdin.write(b"n\\n")\np.stdin.flush()\n# Ask for a name after responding with "n"\ntime.sleep(1)\np.stdin.write(b"${name}\\n")\np.stdin.flush()\n# Ask for a description after providing the name\ntime.sleep(1)\np.stdin.write(b"${description}\\n")\np.stdin.flush()\n# Set Goal 1\ntime.sleep(1)\np.stdin.write(b"${goal1}\\n")\np.stdin.flush()\n# Set Goal 2\ntime.sleep(1)\np.stdin.write(b"${goal2}\\n")\np.stdin.flush()\n# Set Goal 3\ntime.sleep(1)\np.stdin.write(b"${goal3}\\n")\np.stdin.flush()\n# Set Goal 4\ntime.sleep(1)\np.stdin.write(b"${goal4}\\n")\np.stdin.flush()\n# Set Goal 5\ntime.sleep(1)\np.stdin.write(b"${goal5}\\n")\np.stdin.flush()\n# Wait for the child process to finish\np.communicate()`;
+		document.getElementById('pythonScript').value = updatedScript;
+	});
+	const button = document.createElement('button');
+	button.innerHTML = `Download Python File`;
+	button.setAttribute(`style`, `padding:5px;margin-top:10px;border:none;border-radius:5px;cursor:pointer;background-color:#3579f6;color:white`);
+	document.body.appendChild(button);
+	button.addEventListener(`click`, (event) => {
+		event.preventDefault();
+		const script = document.getElementById('pythonScript').value;
+		const name = document.getElementById('name').value;
+		const blob = new Blob([script], {
+			type: 'text/plain'
+		});
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `${name}.py`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	});
+	</script>
+</body>
+
+</html>
